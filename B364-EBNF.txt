@@ -1,0 +1,39 @@
+(* BASIC-364 Language EBNF Definition *)
+
+(* Program Flow *)
+program = { ( assignment | comment ), "\n" }, { ( function | comment ), "\n" }, statement, { statement };
+function = "FUNCTION", identifer, "(", [ identifer, { ",", identifer } ], ")\n", block;
+
+(* Instructions *)
+block = "BEGIN\n", statement, { statement }, "END";
+statement = instruction, "\n";
+instruction = assignment | modifiction | print | call | comment | halt | block | if | for | while;
+while = "WHILE", expression, ( "DO" | "DO\n" ), statement;
+for = "FOR", ( assignment |  ), ";", expression, ";", modifiction, ( "DO" | "DO\n" ), statement;
+if = "IF", expression, ( "THEN" | "THEN\n" ), statement, [ else ];
+else = ( "ELSE IF", expression, ( "THEN" | "THEN\n" ), statement, [ else ] ) | ( "ELSE THEN" | "ELSE THEN\n" ), statement;
+assignment = identifier, ":=", expression;
+modifiction = identifer, "=", expression;
+print = "PRINT", expression, "AT", expression;
+call = "CALL", identifer, "(", [ expression, { ",", expression } ], ")";
+comment = "#", commenttext;
+halt = "HALT";
+
+(* Arithmetic Expressions *)
+expression = xorterm | expression, "|", xorterm;
+xorterm = andterm | xorterm "^", andterm;
+andterm = addterm | andterm, "&", addterm;
+addterm = multipleterm | addterm, ( "+" | "-" ), multipleterm;
+multipleterm = baseterm | multipleterm, ( "*" | "/" | "%" ), baseterm;
+baseterm = identifier | literal | "(", expression, ")";
+literal = number | bool;
+
+(* Primitive Defintions *)
+commenttext = { ? any character except newlines ? };
+identifier = letter, { alphanum };
+number = [ "-" ], nonzerodigit, { digit };
+alphanum = digit | letter;
+bool = "TRUE" | "FALSE";
+digit = "0" | nonzerodigit;
+nonzerodigit = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+letter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
