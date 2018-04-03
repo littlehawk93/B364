@@ -37,3 +37,5 @@ bool = "TRUE" | "FALSE";
 digit = "0" | nonzerodigit;
 nonzerodigit = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 letter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
+allwhitespace = { "\n" | whitespace };
+whitespace = { ? whitespace characters except newline ? };
